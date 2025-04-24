@@ -10,7 +10,7 @@ function App() {
     try {
       const res = await fetch("https://script.google.com/macros/s/AKfycbzWr5z4HGo7m8f173KIAupysRMTustgjani0DPRaUZM4Z52z3esge283jymCR-EgFRZ/exec");
       const data = await res.json();
-      const ordenado = data.sort((a, b) => b.Puntaje - a.Puntaje).slice(0, 10); // Solo tomar los 10 mejores
+      const ordenado = data.sort((a, b) => b.Puntaje - a.Puntaje).slice(0, 10); 
       setRanking(ordenado);
     } catch (error) {
       console.error("No se pudo obtener el ranking:", error);
@@ -46,7 +46,7 @@ function App() {
 
         <div className="ranking-panel">
           <div className="ranking-header">
-            <h2>🏆 RANKING GLOBAL (TOP 10)</h2> {/* Indicación de TOP 10 */}
+            <h2>🏆 RANKING GLOBAL (TOP 10)</h2> {}
           </div>
           <div className="ranking-content">
             {ranking.length > 0 ? (

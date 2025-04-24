@@ -150,10 +150,10 @@ function Tetris({ setPuntajeFinal }) {
 
   const move = ({ keyCode }) => {
     if (!gameOver && isFocused) {
-      if (keyCode === 37) movePlayer(-1); // Flecha izquierda
-      else if (keyCode === 39) movePlayer(1); // Flecha derecha
-      else if (keyCode === 40) dropPlayer(); // Flecha abajo
-      else if (keyCode === 38) rotatePlayer(stage, 1); // Flecha arriba
+      if (keyCode === 37) movePlayer(-1); 
+      else if (keyCode === 39) movePlayer(1); 
+      else if (keyCode === 40) dropPlayer(); 
+      else if (keyCode === 38) rotatePlayer(stage, 1); 
     }
   };
 

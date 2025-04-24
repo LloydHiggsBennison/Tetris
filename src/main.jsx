@@ -5,7 +5,6 @@ import './index.css';
 
 const container = document.getElementById('root');
 
-// Solo una instancia de createRoot
 const root = ReactDOM.createRoot(container);
 root.render(
   <React.StrictMode>
