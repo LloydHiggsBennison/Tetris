@@ -1,0 +1,283 @@
+/* Estilos base */
+:root {
+  --primary-color: #1e293b;
+  --secondary-color: #8d99ae;
+  --accent-color: #ef233c;
+  --dark-color: #0f172a;
+  --light-color: #f8fafc;
+  --highlight-color: #ff9e00;
+  --gold-color: #ffd700;
+  --silver-color: #c0c0c0;
+  --bronze-color: #cd7f32;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  min-height: 100vh;
+}
+
+/* Contenedor principal */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Encabezado */
+/* Encabezado */
+.app-header {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  margin-bottom: 30px;
+  position: relative;
+  width: 100%;
+  text-align: center; /* Para centrar el texto dentro del título */
+}
+
+.app-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--highlight-color);
+  margin: 0 auto; /* Centra el título horizontalmente */
+  text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+  text-align: center; /* Asegura que el texto esté centrado */
+  width: fit-content; /* Ajusta el ancho al contenido */
+}
+
+.score-display {
+  background: var(--primary-color);
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Layout del juego */
+.game-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Tablero de juego */
+.game-board-container {
+  background: var(--primary-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
+}
+
+/* Panel de ranking */
+.ranking-panel {
+  background: var(--primary-color);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.ranking-header {
+  background: var(--accent-color);
+  padding: 15px;
+  text-align: center;
+}
+
+.ranking-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.ranking-content {
+  padding: 15px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* Estilos para la tabla de ranking */
+.ranking-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  font-size: 0.95rem;
+}
+
+.ranking-table th {
+  background: var(--accent-color);
+  color: white;
+  padding: 12px 8px;
+  text-align: center;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.ranking-table td {
+  padding: 12px 8px;
+  vertical-align: middle;
+  border: none;
+}
+
+/* Columnas específicas */
+.position-header {
+  width: 80px;
+  text-align: center;
+}
+
+.player-header {
+  text-align: left;
+  padding-left: 15px;
+}
+
+.score-header {
+  width: 100px;
+  text-align: center;
+}
+
+.date-header {
+  width: 120px;
+  text-align: center;
+}
+
+/* Celdas específicas */
+.position-cell {
+  text-align: center;
+  padding: 0 8px;
+}
+
+.player-name {
+  font-weight: bold;
+  padding-left: 15px;
+  text-align: left;
+  word-break: break-word;
+}
+
+.player-score {
+  color: var(--highlight-color);
+  font-weight: bold;
+  text-align: center;
+}
+
+.player-date {
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.date-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Medallas y posiciones */
+.medal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.gold {
+  background: var(--gold-color);
+  color: #8a6d00;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.silver {
+  background: var(--silver-color);
+  color: #5a5a5a;
+  box-shadow: 0 0 8px rgba(192, 192, 192, 0.5);
+}
+
+.bronze {
+  background: var(--bronze-color);
+  color: #5a3a00;
+  box-shadow: 0 0 8px rgba(205, 127, 50, 0.5);
+}
+
+.position-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--light-color);
+}
+
+/* Filas */
+.ranking-row {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.even-row {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.odd-row {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ranking-row:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Mensaje de cantidad */
+.ranking-count-message {
+  text-align: center;
+  padding: 12px;
+  font-size: 0.85rem;
+  color: var(--secondary-color);
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ranking-table {
+    font-size: 0.85rem;
+  }
+  
+  .position-header {
+    width: 60px;
+  }
+  
+  .date-header {
+    width: 100px;
+  }
+  
+  .medal, .position-number {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+  
+  .player-date {
+    font-size: 0.75rem;
+  }
+}
