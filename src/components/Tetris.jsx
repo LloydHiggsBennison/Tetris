@@ -18,24 +18,20 @@ function Tetris({ setPuntajeFinal }) {
   const [gameOver, setGameOver] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
-  // Función para manejar el foco del tablero
   const handleFocus = () => {
     setIsFocused(true);
   };
 
-  // Función para manejar la pérdida de foco
   const handleBlur = () => {
     setIsFocused(false);
   };
 
   useEffect(() => {
-    // Agregar listeners para el foco cuando el componente se monta
     const gameContainer = document.querySelector('.game-container');
     if (gameContainer) {
       gameContainer.addEventListener('focus', handleFocus);
       gameContainer.addEventListener('blur', handleBlur);
       
-      // Enfocar automáticamente al cargar
       gameContainer.focus();
     }
 

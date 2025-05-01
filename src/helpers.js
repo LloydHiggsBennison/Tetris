@@ -24,10 +24,7 @@ export const checkCollision = (player, stage, { x: moveX, y: moveY }) => {
 };
 
 export const rotate = (matrix, dir) => {
-  // Transponer (filas por columnas)
   const rotated = matrix.map((_, i) => matrix.map(row => row[i]));
-  // Revertir filas si la rotación es hacia la derecha
   if (dir > 0) return rotated.map(row => row.reverse());
-  // Si es a la izquierda, revertimos las columnas
   return rotated.reverse();
 };

@@ -29,12 +29,12 @@ body {
 
 .app-header {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   margin-bottom: 30px;
   position: relative;
   width: 100%;
-  text-align: center; 
+  text-align: center;
 }
 
 .app-title {
@@ -43,10 +43,10 @@ body {
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--highlight-color);
-  margin: 0 auto; 
-  text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
-  text-align: center; 
-  width: fit-content; 
+  margin: 0 auto;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: fit-content;
 }
 
 .score-display {
@@ -55,7 +55,7 @@ body {
   border-radius: 5px;
   font-size: 1.2rem;
   font-weight: bold;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .game-layout {
@@ -71,7 +71,7 @@ body {
   background: var(--primary-color);
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,13 +82,15 @@ body {
   background: var(--primary-color);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  width: 450px;
 }
 
 .ranking-header {
   background: var(--accent-color);
   padding: 15px;
   text-align: center;
+  width: auto;
 }
 
 .ranking-header h2 {
@@ -99,9 +101,8 @@ body {
 }
 
 .ranking-content {
-  padding: 15px;
-  max-height: 500px;
-  overflow-y: auto;
+  max-height: none;
+  overflow: visible;
 }
 
 .ranking-table {
@@ -111,41 +112,43 @@ body {
   font-size: 0.95rem;
 }
 
-.ranking-table th {
-  background: var(--accent-color);
-  color: white;
-  padding: 12px 8px;
-  text-align: center;
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
+.ranking-table th,
 .ranking-table td {
   padding: 12px 8px;
   vertical-align: middle;
-  border: none;
-}
-
-.position-header {
-  width: 80px;
   text-align: center;
 }
 
-.player-header {
+.ranking-table th:nth-child(2),
+.ranking-table td:nth-child(2) {
   text-align: left;
   padding-left: 15px;
 }
 
+.ranking-table th:nth-child(4),
+.ranking-table td:nth-child(4) {
+  text-align: center;
+  width: 100px;
+}
+
+.ranking-table th:last-child,
+.ranking-table td:last-child {
+  text-align: center;
+  padding-left: 4px;
+  padding-right: 4px;
+  width: 90px;
+}
+
+.position-header {
+  width: 80px;
+}
+
 .score-header {
   width: 100px;
-  text-align: center;
 }
 
 .date-header {
-  width: 120px;
-  text-align: center;
+  width: 100px;
 }
 
 .position-cell {
@@ -155,9 +158,9 @@ body {
 
 .player-name {
   font-weight: bold;
-  padding-left: 15px;
-  text-align: left;
   word-break: break-word;
+  text-align: left;
+  padding-left: 15px;
 }
 
 .player-score {
@@ -248,22 +251,62 @@ body {
   .ranking-table {
     font-size: 0.85rem;
   }
-  
+
   .position-header {
     width: 60px;
   }
-  
+
   .date-header {
-    width: 100px;
+    width: 80px;
   }
-  
-  .medal, .position-number {
+
+  .medal,
+  .position-number {
     width: 28px;
     height: 28px;
     font-size: 0.8rem;
   }
-  
+
   .player-date {
     font-size: 0.75rem;
   }
+}
+
+.ranking-delete {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.ranking-delete button {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ranking-delete button:hover {
+  background-color: #d91b32;
+  transform: translateY(-1px);
+}
+
+.loading-ranking {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  padding: 20px;
+  font-size: 1rem;
+  color: var(--secondary-color);
+  font-style: italic;
 }

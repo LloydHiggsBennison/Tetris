@@ -5,15 +5,70 @@ import './index.css';
 function App() {
   const [ranking, setRanking] = useState([]);
   const [puntajeFinal, setPuntajeFinal] = useState(0);
+  const [_cargandoRanking, setCargandoRanking] = useState(false);
 
   const fetchRanking = async () => {
+    setCargandoRanking(true);
     try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbzWr5z4HGo7m8f173KIAupysRMTustgjani0DPRaUZM4Z52z3esge283jymCR-EgFRZ/exec");
+      const res = await fetch("https://script.google.com/macros/s/AKfycbwvet_zTy9rRhv9raIhobpJ8hLL-C5XXQxcRxt1B1GawB4im5GUbh5XX0HX-Rcv6ME/exec");
       const data = await res.json();
       const ordenado = data.sort((a, b) => b.Puntaje - a.Puntaje).slice(0, 10); 
       setRanking(ordenado);
     } catch (error) {
       console.error("No se pudo obtener el ranking:", error);
+    } finally {
+      setCargandoRanking(false);
+    }
+  };
+
+  const borrarRanking = async () => {
+    const confirmar = window.confirm("¿Estás seguro que deseas borrar todo el ranking?");
+    if (!confirmar) return;
+
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbwvet_zTy9rRhv9raIhobpJ8hLL-C5XXQxcRxt1B1GawB4im5GUbh5XX0HX-Rcv6ME/exec?accion=borrar_todo", {
+        method: "GET",
+        mode: "no-cors"
+      });
+
+      alert("Ranking eliminado.");
+      fetchRanking();
+    } catch (error) {
+      console.error("Error al borrar ranking:", error);
+      alert("No se pudo borrar el ranking.");
+    }
+  };
+
+  const editarJugador = async (index) => {
+    const actual = ranking[index];
+    const nuevoNombre = prompt("Editar nombre:", actual.Nombre);
+    if (nuevoNombre === null) return;
+
+    const nuevoPuntaje = prompt("Editar puntaje:", actual.Puntaje);
+    if (nuevoPuntaje === null || isNaN(nuevoPuntaje)) {
+      alert("Puntaje inválido");
+      return;
+    }
+
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbwvet_zTy9rRhv9raIhobpJ8hLL-C5XXQxcRxt1B1GawB4im5GUbh5XX0HX-Rcv6ME/exec", {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({
+          accion: "editar",
+          fila: index + 2,
+          nombre: nuevoNombre,
+          puntaje: parseInt(nuevoPuntaje)
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      alert("Jugador actualizado");
+      fetchRanking();
+    } catch (error) {
+      console.error("Error al editar jugador:", error);
     }
   };
 
@@ -46,7 +101,7 @@ function App() {
 
         <div className="ranking-panel">
           <div className="ranking-header">
-            <h2>🏆 RANKING GLOBAL (TOP 10)</h2> {}
+            <h2>🏆 RANKING GLOBAL (TOP 10)</h2>
           </div>
           <div className="ranking-content">
             {ranking.length > 0 ? (
@@ -54,29 +109,30 @@ function App() {
                 <table className="ranking-table">
                   <thead>
                     <tr>
-                      <th className="position-header">Posición</th>
+                      <th>Posición</th>
                       <th>Jugador</th>
                       <th>Puntaje</th>
                       <th>Fecha</th>
+                      <th>Acción</th>
                     </tr>
                   </thead>
                   <tbody>
                     {ranking.map((item, index) => (
                       <tr key={index} className={`ranking-row ${index % 2 === 0 ? 'even-row' : 'odd-row'} ${index < 3 ? 'top-three' : ''}`}>
-                        <td className="position-cell">
-                          {index === 0 ? (
-                            <span className="gold-medal">🥇</span>
-                          ) : index === 1 ? (
-                            <span className="silver-medal">🥈</span>
-                          ) : index === 2 ? (
-                            <span className="bronze-medal">🥉</span>
-                          ) : (
-                            <span className="position-number">{index + 1}</span>
-                          )}
+                        <td>
+                          {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : index + 1}
                         </td>
-                        <td className="player-name">{item.Nombre || 'Anónimo'}</td>
-                        <td className="player-score">{item.Puntaje.toLocaleString()}</td>
-                        <td className="player-date">{formatFecha(item.Fecha)}</td>
+                        <td>{item.Nombre || 'Anónimo'}</td>
+                        <td>{item.Puntaje.toLocaleString()}</td>
+                        <td>{formatFecha(item.Fecha)}</td>
+                        <td>
+                          <button
+                            onClick={() => editarJugador(index)}
+                            className="text-blue-600 hover:text-blue-800 font-bold"
+                          >
+                            ✏️ Editar
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -86,6 +142,14 @@ function App() {
                     Mostrando {ranking.length} jugadores (de los 10 mejores)
                   </div>
                 )}
+                <div className="ranking-delete mt-4">
+                  <button
+                    onClick={borrarRanking}
+                    className="px-4 py-2 bg-red-600 text-white font-bold rounded hover:bg-red-700 transition"
+                  >
+                    🗑️ Borrar todo el ranking
+                  </button>
+                </div>
               </>
             ) : (
               <div className="loading-ranking">Cargando ranking...</div>
