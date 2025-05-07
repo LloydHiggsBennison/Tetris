@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 import Tetris from "./components/Tetris";
 import './index.css';
 
@@ -41,34 +42,58 @@ function App() {
 
   const editarJugador = async (index) => {
     const actual = ranking[index];
-    const nuevoNombre = prompt("Editar nombre:", actual.Nombre);
-    if (nuevoNombre === null) return;
 
-    const nuevoPuntaje = prompt("Editar puntaje:", actual.Puntaje);
-    if (nuevoPuntaje === null || isNaN(nuevoPuntaje)) {
-      alert("Puntaje inválido");
-      return;
-    }
+    const { value: formValues } = await Swal.fire({
+      title: 'Editar jugador',
+      html:
+        `<input id="swal-input1" class="swal2-input" placeholder="Nombre" value="${actual.Nombre}">` +
+        `<input id="swal-input2" class="swal2-input" placeholder="Puntaje" type="number" value="${actual.Puntaje}">`,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const nombre = document.getElementById('swal-input1').value.trim();
+        const puntaje = parseInt(document.getElementById('swal-input2').value);
 
-    try {
-      await fetch("https://script.google.com/macros/s/AKfycbwvet_zTy9rRhv9raIhobpJ8hLL-C5XXQxcRxt1B1GawB4im5GUbh5XX0HX-Rcv6ME/exec", {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify({
-          accion: "editar",
-          fila: index + 2,
-          nombre: nuevoNombre,
-          puntaje: parseInt(nuevoPuntaje)
-        }),
-        headers: {
-          "Content-Type": "application/json"
+        if (!nombre) {
+          Swal.showValidationMessage('El nombre no puede estar vacío');
+          return false;
         }
-      });
 
-      alert("Jugador actualizado");
-      fetchRanking();
-    } catch (error) {
-      console.error("Error al editar jugador:", error);
+        if (isNaN(puntaje)) {
+          Swal.showValidationMessage('El puntaje debe ser un número válido');
+          return false;
+        }
+
+        return { nombre, puntaje };
+      }
+    });
+
+    if (formValues) {
+      const { nombre, puntaje } = formValues;
+
+      try {
+        await fetch("https://script.google.com/macros/s/AKfycbwvet_zTy9rRhv9raIhobpJ8hLL-C5XXQxcRxt1B1GawB4im5GUbh5XX0HX-Rcv6ME/exec", {
+          method: "POST",
+          mode: "no-cors",
+          body: JSON.stringify({
+            accion: "editar",
+            fila: index + 2,
+            nombre,
+            puntaje
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        Swal.fire('✅ Jugador actualizado', '', 'success');
+        fetchRanking();
+      } catch (error) {
+        console.error("Error al editar jugador:", error);
+        Swal.fire('❌ Error al actualizar', '', 'error');
+      }
     }
   };
 
@@ -128,7 +153,7 @@ function App() {
                         <td>
                           <button
                             onClick={() => editarJugador(index)}
-                            className="text-blue-600 hover:text-blue-800 font-bold"
+                            className="edit-button"
                           >
                             ✏️ Editar
                           </button>
